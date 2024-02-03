@@ -294,7 +294,7 @@
                         }
                         echo "</table>";
                     } else {
-                        echo "ไม่พบข้อมูล";
+                        echo "No Data";
                     }
                 }
                         
