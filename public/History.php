@@ -76,7 +76,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <div class="page">
       <div class="sidebar">
-        <font size ="5"><center><h1>Dashboard</h1></font></center>
+        <font size ="5"><center><h1>History</h1></font></center>
         <div class="sidebar-img">
           <img src="https://cdn.dribbble.com/users/2014359/screenshots/6008317/2.gif" alt="">
         </div>
