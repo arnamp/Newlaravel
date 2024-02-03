@@ -238,7 +238,7 @@
                 </div>
 
 
-                <input type="submit" value="แสดงข้อมูล">
+                <input type="submit" value="Show Data">
             </form>
             <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {

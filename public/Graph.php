@@ -239,7 +239,7 @@
             </div>
 
 
-            <input type="submit" value="แสดงข้อมูล">
+            <input type="submit" value="Show Data">
         </form>
 
         <?php
