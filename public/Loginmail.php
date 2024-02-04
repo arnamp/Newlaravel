@@ -77,7 +77,7 @@
 <div class="login-container">
     <h1>Login</h1>  
     <form class="login-form" action="Dashboarduser.php" method="post" onsubmit="return validateLogin()">
-        <input type="email" name="email" id="email" placeholder="Email" required>
+        <input type="email" name="email" id="email" placeholder="Enter your email" required>
         <button type="submit">Login</button>
     </form>
 </div>
