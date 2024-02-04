@@ -15,37 +15,39 @@
 
   // รับค่า email จากฟอร์ม
   $email = $_POST['email'];
-
-  // เพิ่มข้อมูลลงในตาราง users
-  $sql = "INSERT INTO user(EmailUser) VALUES ('$email')";
-
-  $result = $conn->query($sql);
-
-  // ส่วนที่เพิ่ม: ส่งข้อความไลน์แจ้งเตือน
-  $lineNotifyToken = "Pt5DKEnMroHtQL8ltafxf0IjXvg3CUltjBZijXLTUpI";
-  $message = "มีการเข้าสู่ระบบด้วย Email: $email";
-
-  $lineNotifyAPI = "https://notify-api.line.me/api/notify";
-    $headers = array(
-      "Authorization: Bearer $lineNotifyToken",
-      "Content-Type: application/x-www-form-urlencoded"
-  );
-
-  $data = array('message' => $message);
-
-  $options = array(
-      'http' => array(
-          'header'  => implode("\r\n", $headers),
-          'method'  => 'POST',
-          'content' => http_build_query($data),
-      ),
-  );
-
-  $context  = stream_context_create($options);
-  $result = file_get_contents($lineNotifyAPI, false, $context);
   
-  // ปิดการเชื่อมต่อ MySQL
-  $conn->close();
+  if (!empty($email)) {
+    // เพิ่มข้อมูลลงในตาราง users
+    $sql = "INSERT INTO user(EmailUser) VALUES ('$email')";
+
+    $result = $conn->query($sql);
+
+    // ส่วนที่เพิ่ม: ส่งข้อความไลน์แจ้งเตือน
+    $lineNotifyToken = "Pt5DKEnMroHtQL8ltafxf0IjXvg3CUltjBZijXLTUpI";
+    $message = "มีการเข้าสู่ระบบด้วย Email: $email";
+
+    $lineNotifyAPI = "https://notify-api.line.me/api/notify";
+      $headers = array(
+        "Authorization: Bearer $lineNotifyToken",
+        "Content-Type: application/x-www-form-urlencoded"
+    );
+
+    $data = array('message' => $message);
+
+    $options = array(
+        'http' => array(
+            'header'  => implode("\r\n", $headers),
+            'method'  => 'POST',
+            'content' => http_build_query($data),
+        ),
+    );
+
+    $context  = stream_context_create($options);
+    $result = file_get_contents($lineNotifyAPI, false, $context);
+    
+    // ปิดการเชื่อมต่อ MySQL
+    $conn->close();
+  }
 ?>
 
 <?php
