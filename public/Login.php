@@ -76,7 +76,7 @@
 
 <div class="login-container">
     <h1>Login</h1>
-    <form class="login-form" action="Dashboard.php" method="post" onsubmit="return validateLogin()">
+    <form class="login-form" action="" method="post" onsubmit="return validateLogin()">
         <input type="text" name="username" id="username" placeholder="Username" required>
         <input type="password" name="password" id="password" placeholder="Password" required>
         <button type="submit">Login</button>
@@ -91,9 +91,17 @@
     function validateLogin() {
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
+        var form = document.querySelector('.login-form');
 
         if (username === 'admin' && password === 'Logo!8') {
+            form.action = 'Dashboard.php';
             return true; // อนุญาตให้ส่งฟอร์ม
+        } else if (username === 'company1' && password === 'Logo!8'){
+            form.action = 'Dashboardcompany1.php';
+            return true;
+        } else if (username === 'company2' && password === 'Logo!8'){
+            form.action = 'Dashboardcompany2.php';
+            return true;
         } else {
             alert('Invalid username or password');
             return false; // ป้องกันการส่งฟอร์ม
