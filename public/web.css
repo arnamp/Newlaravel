@@ -280,24 +280,36 @@
     font-size: larger;
 }
 table {
-    width: 100%;
+    width: 90%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-top: 40px;
+    color: #fff; /* เปลี่ยนสีข้อความในตารางเป็นขาว */
+    margin-left : 75px;
+    border-radius: 10px;
+    overflow: hidden;
+    
 }
 
 th, td {
-    border: 1px solid rgb(255, 255, 255);
-    padding: 8px;
+    padding: 12px 15px;
     text-align: center;
+    border: 1px solid #565656;
 }
 
 th {
-    background-color: #1f1d2b;
+    background-color: #5e93ca;
+    color: #fff;
 }
 
 tr:nth-child(even) {
-    background-color: #1f1d2b;
+    background-color: #405f5f; /* สีพื้นหลังของแถวคู่ */
 }
+
+tr:hover {
+    background-color: #708090; /* สีพื้นหลังเมื่อโฮเวอร์เมาส์ */
+}
+
+
 a {
     padding : 8px;
     margin-right: 8px;
