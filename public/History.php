@@ -49,6 +49,28 @@
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .pagination a {
+        color: #fff;
+        padding: 8px 16px;
+        text-decoration: none;
+        background-color: #4d89ca;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+
+    .pagination a:hover {
+        background-color: #444b8e;
+    }
+
+    .pagination .active {
+        background-color: #444b8e;
+    }
   </style>
   <script>
         function toggleDateFields() {
@@ -69,6 +91,7 @@
                 dateFromtoEnd.style.display = "block";
             }
         }
+
     </script>
 </head>
 
@@ -169,7 +192,7 @@
         <script src="js/suggestions.js"></script>
         <div class="content-space">
             <div class="wordtable"><center><h1>History</h1></center></div>
-            <form method="post" action="" oninput="toggleDateFields()">
+            <form method="post" action="History.php" oninput="toggleDateFields()">
                 <label for="filter_type">Filter Data:</label>
                 <select name="filter_type" id="filter_type">
                     <option value="">-- Type Select --</option>
@@ -184,7 +207,7 @@
                     <select name="from_day">
                         <option value="">-- Select --</option>
                         <?php for ($day = 1; $day <= 31; $day++) : ?>
-                            <option value="<?php echo $day; ?>"><?php echo $day; ?></option>
+                            <option value="<?php echo sprintf("%02d", $day); ?>"><?php echo sprintf("%02d", $day);  ?></option>
                         <?php endfor; ?>
                     </select>
 
@@ -192,7 +215,7 @@
                     <select name="from_month">
                         <option value="">-- Select --</option>
                         <?php for ($month = 1; $month <= 12; $month++) : ?>
-                            <option value="<?php echo $month; ?>"><?php echo $month; ?></option>
+                            <option value="<?php echo sprintf("%02d", $month);  ?>"><?php echo sprintf("%02d", $month);  ?></option>
                         <?php endfor; ?>
                     </select>
 
@@ -213,15 +236,15 @@
                     <select name="to_day">
                         <option value="">-- Select --</option>
                         <?php for ($day = 1; $day <= 31; $day++) : ?>
-                            <option value="<?php echo $day; ?>"><?php echo $day; ?></option>
+                            <option value="<?php echo sprintf("%02d", $day); ?>"><?php echo sprintf("%02d", $day);  ?></option>
                         <?php endfor; ?>
                     </select>
 
                     <label for="to_month">To Month:</label>
                     <select name="to_month">
                         <option value="">-- Select --</option>
-                        <?php for ($month = 1; $month <= 12; $month++) : ?>
-                            <option value="<?php echo $month; ?>"><?php echo $month; ?></option>
+                        <?php for ($month = 01; $month <= 12; $month++) : ?>
+                            <option value="<?php echo sprintf("%02d", $month);  ?>"><?php echo sprintf("%02d", $month); ?></option>
                         <?php endfor; ?>
                     </select>
 
@@ -236,70 +259,186 @@
                         <?php endfor; ?>
                     </select>
                 </div>
-
-
                 <input type="submit" value="Show Data">
             </form>
+
             <?php
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $fromDay = $_POST["from_day"];
-                    $fromMonth = $_POST["from_month"];
-                    $fromYear = $_POST["from_year"];
-                    $fromDateFilter = "$fromYear-$fromMonth-$fromDay";
+              // ตรวจสอบว่ามีการส่งค่าผ่าน URL parameters หรือไม่และดึงค่าเข้ามาใช้งาน
+              if (isset($_GET["filter_type"]) && isset($_GET["from_day"]) && isset($_GET["from_month"]) && isset($_GET["from_year"]) && isset($_GET["to_day"]) && isset($_GET["to_month"]) && isset($_GET["to_year"])) {
+                  $filterType = $_GET["filter_type"];
+                  $fromDay = $_GET["from_day"];
+                  $fromMonth = $_GET["from_month"];
+                  $fromYear = $_GET["from_year"];
+                  $fromDateFilter = "$fromYear-$fromMonth-$fromDay";
+                  $toDay = $_GET["to_day"];
+                  $toMonth = $_GET["to_month"];
+                  $toYear = $_GET["to_year"];
+                  $toDateFilter = "$toYear-$toMonth-$toDay";
 
-                    $toDay = $_POST["to_day"];
-                    $toMonth = $_POST["to_month"];
-                    $toYear = $_POST["to_year"];
-                    $toDateFilter = "$toYear-$toMonth-$toDay";
+                  // เพิ่มโค้ดการดึงข้อมูลจากฐานข้อมูลตามความเหมาะสม
+                  $servername = "roundhouse.proxy.rlwy.net:32692";
+                  $username = "root";
+                  $password = "cbA5b511H2334bFDF-3a4ACEHA2GcBD2";
+                  $dbname = "project";
 
-                    $filterType = $_POST["filter_type"];
+                  // สร้างการเชื่อมต่อ
+                  $conn = new mysqli($servername, $username, $password, $dbname);
 
-                    // เพิ่มโค้ดการดึงข้อมูลจากฐานข้อมูลตามความเหมาะสม
-                    $servername = "roundhouse.proxy.rlwy.net:32692";
-                    $username = "root";
-                    $password = "cbA5b511H2334bFDF-3a4ACEHA2GcBD2";
-                    $dbname = "project";
-                
-                    // สร้างการเชื่อมต่อ
-                    $conn =new mysqli($servername, $username, $password, $dbname);
-                
-                    // ตรวจสอบการเชื่อมต่อ
-                    if ($conn->connect_error) {
-                        die("การเชื่อมต่อล้มเหลว: " . $conn->connect_error);
+                  // ตรวจสอบการเชื่อมต่อ
+                  if ($conn->connect_error) {
+                      die("การเชื่อมต่อล้มเหลว: " . $conn->connect_error);
+                  }
+                  // กำหนดจำนวนข้อมูลต่อหน้า
+                  $per_page = 20;
+
+                  // หาหน้าปัจจุบัน
+                  if (isset($_GET['page'])) {
+                      $page = $_GET['page'];
+                  } else {
+                      $page = 1;
+                  }
+
+                  $start_from = ($page - 1) * $per_page;
+
+                  // สร้างคำสั่ง SQL เพื่อดึงข้อมูล
+                  $sql = "SELECT * FROM plclogo8 WHERE ";
+                  $sql2 = "SELECT COUNT(*) AS total FROM plclogo8 WHERE ";
+
+                  if ($filterType === "daily") {
+                      // ตัวอย่างเงื่อนไขรายวัน
+                      $sql .= "Date(Datetime) = '$fromDateFilter'";
+                      $sql2 .= "Date(Datetime) = '$fromDateFilter'";
+                  } elseif ($filterType === "monthly") {
+                      // ตัวอย่างเงื่อนไขรายเดือน
+                      $sql .= "MONTH(Datetime) = '$fromMonth' AND YEAR(Datetime) = '$fromYear'";
+                      $sql2 .= "MONTH(Datetime) = '$fromMonth' AND YEAR(Datetime) = '$fromYear'";
+                  } elseif ($filterType === "yearly") {
+                      // ตัวอย่างเงื่อนไขรายปี
+                      $sql .= "YEAR(Datetime) = '$fromYear'";
+                      $sql2 .= "YEAR(Datetime) = '$fromYear'";
+                  } elseif ($filterType === "between") {
+                      // ตัวอย่างเงื่อนไขระหว่างวันที่
+                      $sql .= "Datetime BETWEEN '$fromDateFilter' AND '$toDateFilter'";
+                      $sql2 .= "Datetime BETWEEN '$fromDateFilter' AND '$toDateFilter'";
+                  }
+                  
+                  $sql .= "LIMIT $start_from, $per_page";
+                  // ดำเนินการต่อเพื่อดึงข้อมูลจากฐานข้อมูล
+                  $result = $conn->query($sql);
+                  // แสดงผล
+                  if ($result->num_rows > 0) {
+                    echo "<table><tr><th>DATA</th><th>INFOSOIL</th><th>INFOAIR</th><th>STATUSLIGHT</th><th>STATUSFAN</th><th>STATUSPUMP</th><th>DATETIME</th></tr>";
+                    while ($row = $result->fetch_assoc()) {
+                      echo "<tr><td>" . $row["Data"] . "</td><td>" . $row["Infosoil"] . "</td><td>" . $row["Infoair"] . "</td><td>" . $row["Statuslight"] . "</td><td>" . $row["Statusfan"] . "</td><td>" . $row["Statuspump"] . "</td><td>" . $row["Datetime"] . "</td></tr>";
                     }
-                    $sql = "SELECT * FROM plclogo8 WHERE ";
+                    echo "</table>";
+                  }
 
-                    if ($filterType === "daily") {
-                        // ตัวอย่างเงื่อนไขรายวัน
-                        $sql .= "Date(Datetime) = '$fromDateFilter'";
-                    } elseif ($filterType === "monthly") {
-                        // ตัวอย่างเงื่อนไขรายเดือน
-                        $sql .= "MONTH(Datetime) = '$fromMonth' AND YEAR(Datetime) = '$fromYear'";
-                    } elseif ($filterType === "yearly") {
-                        // ตัวอย่างเงื่อนไขรายปี
-                        $sql .= "YEAR(Datetime) = '$fromYear'";
-                    } elseif ($filterType === "between") {
-                    // ตัวอย่างเงื่อนไขรายปี
-                    $sql .= "Datetime BETWEEN '$fromDateFilter' AND '$toDateFilter'";
+                  // สร้างลิงก์เปลี่ยนหน้า
+                  $result = $conn->query($sql2);
+                  $row = $result->fetch_assoc();
+                  $total_pages = ceil($row["total"] / $per_page);
+
+                  echo "<br><br>";
+                  echo "<div class='pagination'>";
+                  for ($i=1; $i<=$total_pages; $i++) { 
+                    echo "<a href='?page=".$i."&filter_type=".$filterType."&from_day=".$fromDay."&from_month=".$fromMonth."&from_year=".$fromYear."&to_day=".$toDay."&to_month=".$toMonth."&to_year=".$toYear."'>".$i."</a> "; 
+                  }   
+                  echo "</div>";
+              } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["filter_type"])) {
+                  $filterType = $_POST["filter_type"];
+                  $fromDay = $_POST["from_day"];
+                  $fromMonth = $_POST["from_month"];
+                  $fromYear = $_POST["from_year"];
+                  $fromDateFilter = "$fromYear-$fromMonth-$fromDay";
+                  $toDay = $_POST["to_day"];
+                  $toMonth = $_POST["to_month"];
+                  $toYear = $_POST["to_year"];
+                  $toDateFilter = "$toYear-$toMonth-$toDay";
+                  // เพิ่มโค้ดการดึงข้อมูลจากฐานข้อมูลตามความเหมาะสม
+                  $servername = "roundhouse.proxy.rlwy.net:32692";
+                  $username = "root";
+                  $password = "cbA5b511H2334bFDF-3a4ACEHA2GcBD2";
+                  $dbname = "project";
+
+                  // สร้างการเชื่อมต่อ
+                  $conn = new mysqli($servername, $username, $password, $dbname);
+
+                  // ตรวจสอบการเชื่อมต่อ
+                  if ($conn->connect_error) {
+                      die("การเชื่อมต่อล้มเหลว: " . $conn->connect_error);
+                  }
+                  // กำหนดจำนวนข้อมูลต่อหน้า
+                  $per_page = 20;
+
+                  // หาหน้าปัจจุบัน
+                  if (isset($_GET['page'])) {
+                      $page = $_GET['page'];
+                  } else {
+                      $page = 1;
+                  }
+
+                  $start_from = ($page - 1) * $per_page;
+
+                  // สร้างคำสั่ง SQL เพื่อดึงข้อมูล
+                  $sql = "SELECT * FROM plclogo8 WHERE ";
+                  $sql2 = "SELECT COUNT(*) AS total FROM plclogo8 WHERE ";
+
+                  if ($filterType === "daily") {
+                      // ตัวอย่างเงื่อนไขรายวัน
+                      $sql .= "Date(Datetime) = '$fromDateFilter'";
+                      $sql2 .= "Date(Datetime) = '$fromDateFilter'";
+                  } elseif ($filterType === "monthly") {
+                      // ตัวอย่างเงื่อนไขรายเดือน
+                      $sql .= "MONTH(Datetime) = '$fromMonth' AND YEAR(Datetime) = '$fromYear'";
+                      $sql2 .= "MONTH(Datetime) = '$fromMonth' AND YEAR(Datetime) = '$fromYear'";
+                  } elseif ($filterType === "yearly") {
+                      // ตัวอย่างเงื่อนไขรายปี
+                      $sql .= "YEAR(Datetime) = '$fromYear'";
+                      $sql2 .= "YEAR(Datetime) = '$fromYear'";
+                  } elseif ($filterType === "between") {
+                      // ตัวอย่างเงื่อนไขระหว่างวันที่
+                      $sql .= "Datetime BETWEEN '$fromDateFilter' AND '$toDateFilter'";
+                      $sql2 .= "Datetime BETWEEN '$fromDateFilter' AND '$toDateFilter'";
+                  }
+                  
+                  $sql .= "LIMIT $start_from, $per_page";
+                  // ดำเนินการต่อเพื่อดึงข้อมูลจากฐานข้อมูล
+                  $result = $conn->query($sql);
+                  // แสดงผล
+                  if ($result->num_rows > 0) {
+                    echo "<table><tr><th>DATA</th><th>INFOSOIL</th><th>INFOAIR</th><th>STATUSLIGHT</th><th>STATUSFAN</th><th>STATUSPUMP</th><th>DATETIME</th></tr>";
+                    while ($row = $result->fetch_assoc()) {
+                      echo "<tr><td>" . $row["Data"] . "</td><td>" . $row["Infosoil"] . "</td><td>" . $row["Infoair"] . "</td><td>" . $row["Statuslight"] . "</td><td>" . $row["Statusfan"] . "</td><td>" . $row["Statuspump"] . "</td><td>" . $row["Datetime"] . "</td></tr>";
                     }
+                    echo "</table>";
+                  }
 
-                    // ดำเนินการต่อเพื่อดึงข้อมูลจากฐานข้อมูล
-                    $result = $conn->query($sql);
+                  // สร้างลิงก์เปลี่ยนหน้า
+                  $result = $conn->query($sql2);
+                  $row = $result->fetch_assoc();
+                  $total_pages = ceil($row["total"] / $per_page);
 
-                    if ($result->num_rows > 0) {
-                        // แสดงข้อมูล
-                        echo "<table><tr><th>DATA</th><th>INFOSOIL</th><th>INFOAIR</th><th>STATUSLIGHT</th><th>STATUSFAN</th><th>STATUSPUMP</th><th>DATETIME</th></tr>";
-                        while($row = $result->fetch_assoc()) {
-                             echo "<tr><td>" . $row["Data"]. "</td><td>" . $row["Infosoil"]. "</td><td>" . $row["Infoair"]. "</td><td>" . $row["Statuslight"]. "</td><td>" . $row["Statusfan"]. "</td><td>" . $row["Statuspump"]. "</td><td>" . $row["Datetime"]. "</td></tr>";
-                        }
-                        echo "</table>";
-                    } else {
-                        echo "No Data";
-                    }
-                }
-                        
+                  echo "<br><br>";
+                  echo "<div class='pagination'>";
+                  for ($i=1; $i<=$total_pages; $i++) { 
+                    echo "<a href='?page=".$i."&filter_type=".$filterType."&from_day=".$fromDay."&from_month=".$fromMonth."&from_year=".$fromYear."&to_day=".$toDay."&to_month=".$toMonth."&to_year=".$toYear."'>".$i."</a> "; 
+                  }   
+                  echo "</div>";
+              } else {
+                  // กรณีที่ไม่มีการส่งค่าผ่าน URL parameters หรือ POST parameters
+                  // ให้กำหนดค่าเริ่มต้น
+                  $filterType = "";
+                  $fromDay = "";
+                  $fromMonth = "";
+                  $fromYear = "";
+                  $fromDateFilter = "$fromYear-$fromMonth-$fromDay";
+                  $toDay = "";
+                  $toMonth = "";
+                  $toYear = "";
+                  $toDateFilter = "$toYear-$toMonth-$toDay";
+              }
             ?>
-        
         </div>
     </div>
     </div>
