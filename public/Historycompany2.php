@@ -206,7 +206,7 @@
                     <select name="from_day">
                         <option value="">-- Select --</option>
                         <?php for ($day = 1; $day <= 31; $day++) : ?>
-                            <option value="<?php echo $day; ?>"><?php echo $day; ?></option>
+                            <option value="<?php echo sprintf("%02d", $day);?>"><?php echo sprintf("%02d", $day); ?></option>
                         <?php endfor; ?>
                     </select>
 
@@ -214,7 +214,7 @@
                     <select name="from_month">
                         <option value="">-- Select --</option>
                         <?php for ($month = 1; $month <= 12; $month++) : ?>
-                            <option value="<?php echo $month; ?>"><?php echo $month; ?></option>
+                            <option value="<?php echo sprintf("%02d", $month); ?>"><?php echo sprintf("%02d", $month); ?></option>
                         <?php endfor; ?>
                     </select>
 
@@ -235,7 +235,7 @@
                     <select name="to_day">
                         <option value="">-- Select --</option>
                         <?php for ($day = 1; $day <= 31; $day++) : ?>
-                            <option value="<?php echo $day; ?>"><?php echo $day; ?></option>
+                            <option value="<?php echo sprintf("%02d", $day); ?>"><?php echo sprintf("%02d", $day); ?></option>
                         <?php endfor; ?>
                     </select>
 
@@ -243,7 +243,7 @@
                     <select name="to_month">
                         <option value="">-- Select --</option>
                         <?php for ($month = 1; $month <= 12; $month++) : ?>
-                            <option value="<?php echo $month; ?>"><?php echo $month; ?></option>
+                            <option value="<?php echo sprintf("%02d", $month); ?>"><?php echo sprintf("%02d", $month);?></option>
                         <?php endfor; ?>
                     </select>
 
