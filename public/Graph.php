@@ -222,7 +222,7 @@
                 <select name="to_month">
                     <option value="">-- Select --</option>
                     <?php for ($month = 1; $month <= 12; $month++) : ?>
-                        <option value="<?php echo sprintf("%02d", $month); ?>"><php echo sprintf("%02d", $month); ?></option>
+                        <option value="<?php echo sprintf("%02d", $month); ?>"><?php echo sprintf("%02d", $month); ?></option>
                     <?php endfor; ?>
                 </select>
 
