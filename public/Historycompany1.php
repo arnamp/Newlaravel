@@ -71,6 +71,11 @@
     .pagination .active {
         background-color: #444b8e;
     }
+    .current-page{
+      margin-left : 5px;
+      margin-right : 8px;
+      font-size : large;
+    }
   </style>
   <script>
         function toggleDateFields() {
@@ -341,9 +346,20 @@
 
                   echo "<br><br>";
                   echo "<div class='pagination'>";
-                  for ($i=1; $i<=$total_pages; $i++) { 
-                    echo "<a href='?page=".$i."&filter_type=".$filterType."&from_day=".$fromDay."&from_month=".$fromMonth."&from_year=".$fromYear."&to_day=".$toDay."&to_month=".$toMonth."&to_year=".$toYear."'>".$i."</a> "; 
-                  }   
+                  if ($page > 1) {
+                      echo "<a href='?page=" . ($page - 1) . "&filter_type=$filterType&from_day=$fromDay&from_month=$fromMonth&from_year=$fromYear&to_day=$toDay&to_month=$toMonth&to_year=$toYear'>Previous</a>";
+                  }
+
+                  for ($i = 1; $i <= $total_pages; $i++) {
+                      // ตรวจสอบหน้าปัจจุบัน
+                      if ($i == $page) {
+                          echo "<span class='current-page'>$page</span>";
+                      } 
+                  }
+
+                  if ($page < $total_pages) {
+                      echo "<a href='?page=" . ($page + 1) . "&filter_type=$filterType&from_day=$fromDay&from_month=$fromMonth&from_year=$fromYear&to_day=$toDay&to_month=$toMonth&to_year=$toYear'>Next</a>";
+                  }
                   echo "</div>";
               } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["filter_type"])) {
                   $filterType = $_POST["filter_type"];
@@ -421,9 +437,20 @@
 
                   echo "<br><br>";
                   echo "<div class='pagination'>";
-                  for ($i=1; $i<=$total_pages; $i++) { 
-                    echo "<a href='?page=".$i."&filter_type=".$filterType."&from_day=".$fromDay."&from_month=".$fromMonth."&from_year=".$fromYear."&to_day=".$toDay."&to_month=".$toMonth."&to_year=".$toYear."'>".$i."</a> "; 
-                  }   
+                  if ($page > 1) {
+                      echo "<a href='?page=" . ($page - 1) . "&filter_type=$filterType&from_day=$fromDay&from_month=$fromMonth&from_year=$fromYear&to_day=$toDay&to_month=$toMonth&to_year=$toYear'>Previous</a>";
+                  }
+
+                  for ($i = 1; $i <= $total_pages; $i++) {
+                      // ตรวจสอบหน้าปัจจุบัน
+                      if ($i == $page) {
+                          echo "<span class='current-page'>$page</span>";
+                      } 
+                  }
+
+                  if ($page < $total_pages) {
+                      echo "<a href='?page=" . ($page + 1) . "&filter_type=$filterType&from_day=$fromDay&from_month=$fromMonth&from_year=$fromYear&to_day=$toDay&to_month=$toMonth&to_year=$toYear'>Next</a>";
+                  }
                   echo "</div>";
               } else {
                   // กรณีที่ไม่มีการส่งค่าผ่าน URL parameters หรือ POST parameters
