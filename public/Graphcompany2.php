@@ -286,8 +286,6 @@
                     while ($row = mysqli_fetch_array($result1)) {
                         // Your existing code to fetch data
                         $datetime[] = date_format(date_create($row['Datetime']), "d-m-Y H:i:s");
-                        $tempsoil[] = $row['Tempsoil'];
-                        $humidsoil[] = $row['Humidsoil'];
                         $tempair[] = $row['Tempair'];
                         $humidair[] = $row['Humidair'];
                         $light[] = $row['Light'];
@@ -301,102 +299,102 @@
             }
         ?>
 
-              <div class="word_device"><br><br><h3>Air Sensor</h3></div>
-              <canvas  id="chart2"></canvas>
-            </div>
-              <script src="//code.jquery.com/jquery-1.9.1.js"></script>
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"></script>
-                  <script type="text/javascript">
-                      var ctx2 = document.getElementById("chart2").getContext('2d');
-                          var Chart2 = new Chart(ctx2, {
-                              type: 'line',
-                              data: {
-                                  labels:<?php echo json_encode($datetime); ?>,
-                                  datasets: [{
-                                      label:'Temperature Air (Celcius)',
-                                      backgroundColor:[
-                                      'RGB(0, 0, 255,0.1)'],borderColor:["RGB(255, 99, 71)"],borderWidth:3,tension:0.4,
-                                      pointBorderColor: ["#66CCFF"],
-                                      data:<?php echo json_encode($tempair); ?>,
+            <div class="word_device"><br><br><h3>Air Sensor</h3></div>
+            <canvas  id="chart2"></canvas>
+          </div>
+            <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"></script>
+                <script type="text/javascript">
+                    var ctx2 = document.getElementById("chart2").getContext('2d');
+                        var Chart2 = new Chart(ctx2, {
+                            type: 'line',
+                            data: {
+                                labels:<?php echo json_encode($datetime); ?>,
+                                datasets: [{
+                                    label:'Temperature Air (Celcius)',
+                                    backgroundColor:[
+                                    'RGB(0, 0, 255,0.1)'],borderColor:["RGB(255, 99, 71)"],borderWidth:3,tension:0.4,
+                                    pointBorderColor: ["#66CCFF"],
+                                    data:<?php echo json_encode($tempair); ?>,
+                                },
+                                {
+                                  label:'Humidity Air (RH%)',
+                                  backgroundColor:[
+                                  'RGB(0, 0, 255,0.1)'],borderColor:["#00ff00"],borderWidth:3,tension:0.4,
+                                  pointBorderColor: ["#66CCFF"],
+                                  data:<?php echo json_encode($humidair); ?>,
+                                },
+                                {
+                                  label:'Light (lux)',
+                                  backgroundColor:[
+                                  'RGB(0, 0, 255,0.1)'],borderColor:["#CC66FF"],borderWidth:3,tension:0.4,
+                                  pointBorderColor: ["#66CCFF"],
+                                  data:<?php echo json_encode($light); ?>,
+                                }
+                              ]  
+                              },
+                            options: {
+                                legend: {
+                                display: true,
+                                position: 'top',
+    
+                                labels: {
+                                fontColor: '#FFFFFF',
+                                fontFamily: 'Circular Std Book',
+                                fontSize: 14,
+                                }
+                              },
+                            }
+                          });
+                  </script>  
+          <div style="width:70%;hieght:10%;text-align:center">
+            <div class="word_device"><br><br><h3>Status Device</h3></div>
+            <canvas  id="chart3"></canvas>
+          </div> 
+            <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"></script>
+                <script type="text/javascript">
+                    var ctx3 = document.getElementById("chart3").getContext('2d');
+                        var Chart3 = new Chart(ctx3, {
+                            type: 'line',
+                            data: {
+                                labels:<?php echo json_encode($datetime); ?>,
+                                datasets: [{
+                                    label:'Status Light (1:ON , 0:OFF)',
+                                    backgroundColor:[
+                                    'RGB(0, 0, 255,0.1)'],borderColor:["RGB(255, 99, 71)"],borderWidth:3,tension:0.4,
+                                    pointBorderColor: ["#66CCFF"],
+                                    data:<?php echo json_encode($statuslight); ?>,
                                   },
                                   {
-                                    label:'Humidity Air (RH%)',
+                                    label:'Status Fan (1:ON , 0:OFF)',
                                     backgroundColor:[
                                     'RGB(0, 0, 255,0.1)'],borderColor:["#00ff00"],borderWidth:3,tension:0.4,
                                     pointBorderColor: ["#66CCFF"],
-                                    data:<?php echo json_encode($humidair); ?>,
+                                    data:<?php echo json_encode($statusfan); ?>,
                                   },
                                   {
-                                    label:'Light (lux)',
+                                    label:'Status Pump (1:ON , 0:OFF)',
                                     backgroundColor:[
-                                    'RGB(0, 0, 255,0.1)'],borderColor:["#CC66FF"],borderWidth:3,tension:0.4,
+                                      'RGB(0, 0, 255,0.1)'],borderColor:["#CC66FF"],borderWidth:3,tension:0.4,
                                     pointBorderColor: ["#66CCFF"],
-                                    data:<?php echo json_encode($light); ?>,
-                                  }
-                                ]  
-                                },
-                              options: {
-                                  legend: {
-                                  display: true,
-                                  position: 'top',
-      
-                                  labels: {
-                                  fontColor: '#FFFFFF',
-                                  fontFamily: 'Circular Std Book',
-                                  fontSize: 14,
-                                  }
-                                },
-                              }
-                            });
-                    </script>  
-            <div style="width:70%;hieght:10%;text-align:center">
-              <div class="word_device"><br><br><h3>Status Device</h3></div>
-              <canvas  id="chart3"></canvas>
-            </div> 
-              <script src="//code.jquery.com/jquery-1.9.1.js"></script>
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"></script>
-                  <script type="text/javascript">
-                      var ctx3 = document.getElementById("chart3").getContext('2d');
-                          var Chart3 = new Chart(ctx3, {
-                              type: 'line',
-                              data: {
-                                  labels:<?php echo json_encode($datetime); ?>,
-                                  datasets: [{
-                                      label:'Status Light (1:ON , 0:OFF)',
-                                      backgroundColor:[
-                                      'RGB(0, 0, 255,0.1)'],borderColor:["RGB(255, 99, 71)"],borderWidth:3,tension:0.4,
-                                      pointBorderColor: ["#66CCFF"],
-                                      data:<?php echo json_encode($statuslight); ?>,
-                                    },
-                                    {
-                                      label:'Status Fan (1:ON , 0:OFF)',
-                                      backgroundColor:[
-                                      'RGB(0, 0, 255,0.1)'],borderColor:["#00ff00"],borderWidth:3,tension:0.4,
-                                      pointBorderColor: ["#66CCFF"],
-                                      data:<?php echo json_encode($statusfan); ?>,
-                                    },
-                                    {
-                                      label:'Status Pump (1:ON , 0:OFF)',
-                                      backgroundColor:[
-                                        'RGB(0, 0, 255,0.1)'],borderColor:["#CC66FF"],borderWidth:3,tension:0.4,
-                                      pointBorderColor: ["#66CCFF"],
-                                      data:<?php echo json_encode($statuspump); ?>,
-                                    }]  
-                                },
-                              options: {
-                                  legend: {
-                                  display: true,
-                                  position: 'top',
-      
-                                  labels: {
-                                  fontColor: '#FFFFFF',
-                                  fontFamily: 'Circular Std Book',
-                                  fontSize: 14,
-                                  }
-                                },
-                              }
-                            });
-                    </script>
+                                    data:<?php echo json_encode($statuspump); ?>,
+                                  }]  
+                              },
+                            options: {
+                                legend: {
+                                display: true,
+                                position: 'top',
+    
+                                labels: {
+                                fontColor: '#FFFFFF',
+                                fontFamily: 'Circular Std Book',
+                                fontSize: 14,
+                                }
+                              },
+                            }
+                          });
+                  </script>
         </div>
       </div>
 </body>

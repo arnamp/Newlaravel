@@ -288,9 +288,6 @@
                         $datetime[] = date_format(date_create($row['Datetime']), "d-m-Y H:i:s");
                         $tempsoil[] = $row['Tempsoil'];
                         $humidsoil[] = $row['Humidsoil'];
-                        $tempair[] = $row['Tempair'];
-                        $humidair[] = $row['Humidair'];
-                        $light[] = $row['Light'];
                         $statuslight[] = $row['Bitstatuslight'];
                         $statusfan[] = $row['Bitstatusfan'];
                         $statuspump[] = $row['Bitstatuspump'];
@@ -302,7 +299,7 @@
         ?>
             <div class="word_device"><h3>Soil Sensor</h3></div>
             <canvas  id="chart1"></canvas> 
-          </div> 
+          </div>
             <script src="//code.jquery.com/jquery-1.9.1.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"></script>
                 <script type="text/javascript">
