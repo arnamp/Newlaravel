@@ -10,6 +10,13 @@ while ($row = mysqli_fetch_array($result1)) {
     $statusfan = $row['Statusfan'];
     $statuspump = $row['Statuspump'];
 }
+$sql2 ="select * from readinput order by Id desc limit 1";
+$result2 = mysqli_query($con,$sql2);
+while ($row = mysqli_fetch_array($result2)) { 
+  $readlight = $row['Inputlight'];
+  $readfan = $row['Inputfan'];
+  $readpump = $row['Inputpump'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -160,8 +167,21 @@ while ($row = mysqli_fetch_array($result1)) {
               <div class="statusdevice">
                 <img src="https://www.cool-mania.net/mini/w-490/data/product/2f/45fcf7a9778ef9193185207a9e2b1a.jpg" alt="Device Image">
                 <h2>LED</h2>
-                <div class="rounded-box">
-                  <h1><?php echo $statuslight ?></h1>
+                <div class="commandstatus">
+                  <div class="wordcommand">
+                    <h3>Commanded</h3>
+                  </div>
+                  <div class="rounded-box">
+                    <?php echo ($statuslight == 'ON') ? '<h1 style="color: #00FF00;">ON</h1>' : '<h1 style="color: #FF0000;">OFF</h1>'; ?>
+                  </div>
+                </div>
+                <div class="readstatus">
+                  <div class="wordread">
+                    <h3>Recent Status</h3><br>
+                  </div>
+                  <div class="rounded-box">
+                    <?php echo ($readlight == 'ON') ? '<h1 style="color: #00FF00;">ON</h1>' : '<h1 style="color: #FF0000;">OFF</h1>'; ?>
+                  </div>
                 </div>
               </div>
             </div>
@@ -169,8 +189,21 @@ while ($row = mysqli_fetch_array($result1)) {
               <div class="statusdevice">
                 <img src="https://image.makewebeasy.net/makeweb/0/OmdeorHQh/POLO/%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%AA%E0%B8%B9%E0%B8%9A%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%88%E0%B8%B8%E0%B9%88%E0%B8%A1_POLO_%E0%B8%A3%E0%B8%B8%E0%B9%88%E0%B8%99_K_101_100W__3_.png?v=202012190947" alt="Device Image">
                 <h2>Water Pump</h2>
-                <div class="rounded-box">
-                  <h1><?php echo $statuspump ?></h1>
+                <div class="commandstatus">
+                  <div class="wordcommand">
+                    <h3>Commanded</h3>
+                  </div>
+                  <div class="rounded-box">
+                    <?php echo ($statuspump == 'ON') ? '<h1 style="color: #00FF00;">ON</h1>' : '<h1 style="color: #FF0000;">OFF</h1>'; ?>
+                  </div>
+                </div>
+                <div class="readstatus">
+                  <div class="wordread">
+                    <h3>Recent Status</h3><br>
+                  </div>
+                  <div class="rounded-box">
+                    <?php echo ($readpump == 'ON') ? '<h1 style="color: #00FF00;">ON</h1>' : '<h1 style="color: #FF0000;">OFF</h1>'; ?>
+                  </div>
                 </div>
               </div>
             </div>
@@ -178,8 +211,21 @@ while ($row = mysqli_fetch_array($result1)) {
               <div class="statusdevice">
                 <img src="https://pim-cdn0.ofm.co.th/products/large/YA04813.jpg" alt="Device Image">
                 <h2>Fan</h2>
-                <div class="rounded-box">
-                  <h1><?php echo $statusfan ?></h1>
+                <div class="commandstatus">
+                  <div class="wordcommand">
+                    <h3>Commanded</h3>
+                  </div>
+                  <div class="rounded-box">
+                    <?php echo ($statusfan == 'ON') ? '<h1 style="color: #00FF00;">ON</h1>' : '<h1 style="color: #FF0000;">OFF</h1>'; ?>
+                  </div>
+                </div>
+                <div class="readstatus">
+                  <div class="wordread">
+                    <h3>Recent Status</h3><br>
+                  </div>
+                  <div class="rounded-box">
+                    <?php echo ($readfan == 'ON') ? '<h1 style="color: #00FF00;">ON</h1>' : '<h1 style="color: #FF0000;">OFF</h1>'; ?>
+                  </div>
                 </div>
               </div>
             </div>

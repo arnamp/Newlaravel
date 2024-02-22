@@ -237,10 +237,11 @@
     display: flex;
 }
 .framestatus{
-    height: 400px;
+    flex-direction: column;
+    align-items: center;
     margin-top: 50px;
     display: flex;
-    margin-left: 220px;
+    margin-left: 168px;
 }
 .statusdevice{
     text-align: center;
@@ -248,18 +249,33 @@
     border: 2px solid #ccc;
     border-radius: 10px;
 }
+.commandstatus{
+    display: flex;
+    text-align: left;
+    margin-top: 30px;
+}
+.readstatus{
+    display:flex;
+    text-align: left;
+    margin-top: 30px;
+}
+.wordcommand{
+    margin-top: 30px;
+    margin-left: 5px;
+}
+.wordread{
+    margin-top: 30px;
+}
 .rounded-box {
-    width: 100px;
-    height: 100px;
-    background-color: #29685f; /* สีพื้นหลัง */
+    width: 80px;
+    height: 80px;
+    background-color: #302d42; /* สีพื้นหลัง */
     border-radius: 50%; /* ทำให้เป็นวงกลม */
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff; /* สีข้อความ */
     text-align: center;
     margin-left: 25px;
-    margin-top: 20px;
   }
   /* เพิ่มขนาดและระยะห่างสำหรับรูปภาพ */
 .statusdevice img {
