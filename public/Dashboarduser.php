@@ -10,6 +10,13 @@ while ($row = mysqli_fetch_array($result1)) {
     $statusfan = $row['Statusfan'];
     $statuspump = $row['Statuspump'];
 }
+$sql2 ="select * from readinput order by Id desc limit 1";
+$result2 = mysqli_query($con,$sql2);
+while ($row = mysqli_fetch_array($result2)) { 
+  $readlight = $row['Inputlight'];
+  $readfan = $row['Inputfan'];
+  $readpump = $row['Inputpump'];
+}
 ?>
 
 <!DOCTYPE html>
